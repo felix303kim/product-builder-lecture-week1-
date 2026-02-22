@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lotto Number Generator</title>
+    <title>Lotto Compass | 로또 정보와 번호 도구</title>
+    <meta name="description" content="로또6/45의 핵심 정보, 확률 계산, 번호 생성, 당첨 확인 도구를 한 곳에서 제공합니다.">
     <link rel="stylesheet" href="style.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RKY088JV2Y"></script>
@@ -17,23 +17,257 @@
     </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Lotto Number Generator</h1>
+    <header class="site-header">
+        <div class="brand">
+            <span class="brand-mark">LC</span>
+            <div>
+                <p class="brand-title">Lotto Compass</p>
+                <p class="brand-subtitle">로또 정보를 한눈에</p>
+            </div>
+        </div>
+        <nav class="site-nav">
+            <a href="#tools">도구</a>
+            <a href="#guide">핵심 정보</a>
+            <a href="#faq">FAQ</a>
+            <a href="about.html">소개</a>
+            <a href="privacy.html">개인정보</a>
+            <a href="terms.html">이용약관</a>
+        </nav>
         <button id="theme-toggle-btn" class="theme-toggle-btn" type="button">Switch to Light Mode</button>
-        <div id="lotto-numbers" class="lotto-numbers"></div>
-        <button id="generate-btn" class="generate-btn">Generate Numbers</button>
+    </header>
 
-        <section class="affiliate-section">
-            <h2>제휴 문의</h2>
+    <main class="page">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">로또6/45 툴킷</p>
+                <h1>번호, 확률, 규정까지
+                    <span class="hero-accent">필요한 것만 정리했습니다.</span>
+                </h1>
+                <p class="hero-desc">
+                    로또 번호 생성과 당첨 확인, 확률 계산을 한 번에. 공식 정보 중심으로 핵심만 정리해
+                    빠르게 판단할 수 있도록 돕습니다.
+                </p>
+                <div class="hero-actions">
+                    <a class="primary-btn" href="#generator">번호 생성 바로가기</a>
+                    <a class="ghost-btn" href="#checker">당첨 확인</a>
+                </div>
+            </div>
+            <div class="hero-card">
+                <h2>오늘의 체크리스트</h2>
+                <ul class="checklist">
+                    <li>번호 생성은 참고용입니다.</li>
+                    <li>판매시간과 구매한도 확인</li>
+                    <li>당첨 확인은 공식 채널 기준</li>
+                    <li>책임 있는 이용 지침 읽기</li>
+                </ul>
+                <p class="hero-note">이 사이트는 동행복권과 무관합니다.</p>
+            </div>
+        </section>
+
+        <section id="tools" class="section">
+            <div class="section-head">
+                <h2>로또 도구</h2>
+                <p>즉시 쓸 수 있는 실용 도구 모음입니다.</p>
+            </div>
+
+            <div class="grid two">
+                <article id="generator" class="panel">
+                    <div class="panel-head">
+                        <h3>번호 생성기</h3>
+                        <p>포함/제외 번호를 반영해 1~10세트까지 생성합니다.</p>
+                    </div>
+                    <div class="form-row">
+                        <label for="set-count">세트 수 (1~10)</label>
+                        <input id="set-count" type="number" min="1" max="10" value="1">
+                    </div>
+                    <div class="form-row">
+                        <label for="include-numbers">포함 번호</label>
+                        <input id="include-numbers" type="text" placeholder="예: 1, 7, 23">
+                    </div>
+                    <div class="form-row">
+                        <label for="exclude-numbers">제외 번호</label>
+                        <input id="exclude-numbers" type="text" placeholder="예: 4, 12, 31">
+                    </div>
+                    <div class="form-row">
+                        <label for="favorite-note">즐겨찾기 메모</label>
+                        <input id="favorite-note" type="text" placeholder="예: 가족 기념일 조합">
+                    </div>
+                    <div class="actions">
+                        <button id="generate-btn" class="primary-btn" type="button">번호 생성</button>
+                        <button id="copy-btn" class="ghost-btn" type="button">결과 복사</button>
+                        <button id="save-btn" class="ghost-btn" type="button">즐겨찾기 저장</button>
+                    </div>
+                    <p id="generator-message" class="helper-text" aria-live="polite"></p>
+                    <div id="lotto-numbers" class="lotto-sets"></div>
+                    <p class="disclaimer">생성된 번호는 예측이나 당첨을 보장하지 않습니다.</p>
+                </article>
+
+                <article class="panel" id="favorites">
+                    <div class="panel-head">
+                        <h3>내 번호 즐겨찾기</h3>
+                        <p>로컬 저장소에만 저장되며, 브라우저를 바꾸면 초기화됩니다.</p>
+                    </div>
+                    <div id="favorites-list" class="favorites-list"></div>
+                    <p id="favorites-empty" class="helper-text">저장된 번호가 없습니다. 번호를 생성한 뒤 저장해 보세요.</p>
+                </article>
+            </div>
+
+            <div class="grid two">
+                <article id="checker" class="panel">
+                    <div class="panel-head">
+                        <h3>당첨 확인 도구</h3>
+                        <p>당첨 번호를 입력하면 등수를 빠르게 계산합니다.</p>
+                    </div>
+                    <div class="form-row">
+                        <label for="winning-numbers">당첨 번호 6개</label>
+                        <input id="winning-numbers" type="text" placeholder="예: 3, 11, 25, 30, 38, 42">
+                    </div>
+                    <div class="form-row">
+                        <label for="bonus-number">보너스 번호</label>
+                        <input id="bonus-number" type="number" min="1" max="45" placeholder="예: 17">
+                    </div>
+                    <div class="form-row">
+                        <label for="my-numbers">내 번호 6개</label>
+                        <input id="my-numbers" type="text" placeholder="예: 5, 11, 23, 30, 38, 45">
+                    </div>
+                    <div class="actions">
+                        <button id="check-btn" class="primary-btn" type="button">등수 확인</button>
+                        <button id="reset-checker" class="ghost-btn" type="button">초기화</button>
+                    </div>
+                    <div id="checker-result" class="result-box" aria-live="polite"></div>
+                    <p class="disclaimer">실제 당첨 결과는 동행복권 공식 발표를 기준으로 확인하세요.</p>
+                </article>
+
+                <article id="odds" class="panel">
+                    <div class="panel-head">
+                        <h3>확률 계산기</h3>
+                        <p>구매한 게임 수에 따라 1등/전체 당첨 확률을 계산합니다.</p>
+                    </div>
+                    <div class="form-row">
+                        <label for="ticket-count">구매 게임 수</label>
+                        <input id="ticket-count" type="number" min="1" max="100" value="5">
+                    </div>
+                    <div class="actions">
+                        <button id="calc-odds" class="primary-btn" type="button">확률 계산</button>
+                    </div>
+                    <div id="odds-output" class="result-box" aria-live="polite"></div>
+                    <p class="disclaimer">공식 당첨 확률(1등 1/8,145,060, 전체 1/42)을 기반으로 한 계산입니다.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="guide" class="section">
+            <div class="section-head">
+                <h2>로또6/45 핵심 정보</h2>
+                <p>공식 규정을 요약했습니다. 자세한 내용은 동행복권을 참고하세요.</p>
+            </div>
+            <div class="grid three">
+                <article class="info-card">
+                    <h3>구매 기본</h3>
+                    <p>1게임 1,000원이며 1~45 중 6개 숫자를 선택합니다.</p>
+                    <p>구매 한도는 1회차 5,000원입니다.</p>
+                </article>
+                <article class="info-card">
+                    <h3>구매/추첨 시간</h3>
+                    <p>인터넷 판매 기준 일~금 06:00~24:00, 토 06:00~20:00입니다.</p>
+                    <p>추첨은 매주 토요일 20:35경에 진행됩니다.</p>
+                </article>
+                <article class="info-card">
+                    <h3>당첨 확률</h3>
+                    <p>1등 당첨 확률은 1/8,145,060입니다.</p>
+                    <p>전체 당첨 확률은 1/42 수준으로 안내됩니다.</p>
+                </article>
+                <article class="info-card">
+                    <h3>당첨금 지급률</h3>
+                    <p>판매액의 50%가 당첨금으로 배분됩니다.</p>
+                    <p>나머지는 복권기금 및 판매수수료 등으로 사용됩니다.</p>
+                </article>
+                <article class="info-card">
+                    <h3>판매처</h3>
+                    <p>전국 로또복권 판매점과 동행복권 홈페이지에서 구매할 수 있습니다.</p>
+                </article>
+                <article class="info-card">
+                    <h3>유의 사항</h3>
+                    <p>만 19세 미만은 구매 및 당첨금 수령이 제한됩니다.</p>
+                    <p>판매점 사정에 따라 판매 시간이 다를 수 있습니다.</p>
+                </article>
+            </div>
+            <div class="source-note">
+                자료 출처: <a href="https://www.dhlottery.co.kr/lt645/intro" target="_blank" rel="noopener noreferrer">동행복권 로또6/45 안내</a>
+            </div>
+        </section>
+
+        <section id="faq" class="section">
+            <div class="section-head">
+                <h2>자주 묻는 질문</h2>
+                <p>로또 이용자들이 가장 많이 궁금해하는 질문을 정리했습니다.</p>
+            </div>
+            <div class="faq-grid">
+                <article class="panel">
+                    <h3>번호 패턴을 분석하면 당첨 확률이 높아지나요?</h3>
+                    <p>로또는 무작위 추첨이므로 특정 패턴이 당첨을 보장하지 않습니다. 번호 분석은 참고용으로만 활용하세요.</p>
+                </article>
+                <article class="panel">
+                    <h3>당첨 확인은 어디서 하나요?</h3>
+                    <p>공식 추첨 방송과 동행복권 홈페이지에서 확인할 수 있습니다.</p>
+                </article>
+                <article class="panel">
+                    <h3>보너스 번호는 언제 사용되나요?</h3>
+                    <p>5개 번호 일치 시 보너스 번호까지 맞으면 2등입니다.</p>
+                </article>
+                <article class="panel">
+                    <h3>번호는 어떻게 선택하나요?</h3>
+                    <p>1~45 중 6개 번호를 선택합니다. 번호 선택 방식은 당첨 확률에 영향을 주지 않습니다.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-head">
+                <h2>책임 있는 이용</h2>
+                <p>로또는 मनोर 목적의 구매만 권장됩니다.</p>
+            </div>
+            <div class="grid two">
+                <article class="panel">
+                    <h3>예산을 정해두기</h3>
+                    <p>월 예산을 정하고 초과 구매를 피하세요. 충동적 구매는 지양합니다.</p>
+                </article>
+                <article class="panel">
+                    <h3>확률 이해하기</h3>
+                    <p>당첨 확률은 매우 낮습니다. 도구는 정보 제공용이며 결과를 보장하지 않습니다.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="section-head">
+                <h2>제휴 및 문의</h2>
+                <p>콘텐츠 제휴나 기능 제안은 아래 폼을 이용해 주세요.</p>
+            </div>
             <form class="affiliate-form" action="https://formspree.io/f/mlgwpvoa" method="POST">
                 <input type="text" name="name" placeholder="이름" required>
                 <input type="email" name="email" placeholder="이메일" required>
                 <textarea name="message" rows="4" placeholder="문의 내용을 입력해 주세요." required></textarea>
                 <button type="submit" class="submit-btn">문의 보내기</button>
             </form>
-            <p class="form-note">문의 내용은 Formspree로 전송됩니다.</p>
+            <p class="form-note">문의 내용은 Formspree로 전송됩니다. 개인정보 수집 안내는 개인정보처리방침에서 확인하세요.</p>
         </section>
-    </div>
+    </main>
+
+    <footer class="site-footer">
+        <div>
+            <p class="footer-title">Lotto Compass</p>
+            <p>로또 정보와 도구를 제공하는 독립 사이트입니다.</p>
+        </div>
+        <div class="footer-links">
+            <a href="about.html">소개</a>
+            <a href="privacy.html">개인정보처리방침</a>
+            <a href="terms.html">이용약관</a>
+            <a href="responsible.html">책임 있는 이용</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+    </footer>
+
     <script src="main.js"></script>
 </body>
 </html>
