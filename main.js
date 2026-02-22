@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const lottoNumbersContainer = document.getElementById('lotto-numbers');
     const generateBtn = document.getElementById('generate-btn');
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const THEME_STORAGE_KEY = 'lotto-theme';
 
     function generateLottoNumbers() {
         const numbers = new Set();
@@ -31,8 +33,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return '#9b59b6'; // Purple
     }
 
+    function applyTheme(theme) {
+        const isLightMode = theme === 'light';
+        document.body.classList.toggle('light-mode', isLightMode);
+        themeToggleBtn.textContent = isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+    }
+
+    function initializeTheme() {
+        const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        const initialTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+        applyTheme(initialTheme);
+    }
+
+    function toggleTheme() {
+        const nextTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+        applyTheme(nextTheme);
+        localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    }
+
     generateBtn.addEventListener('click', displayLottoNumbers);
+    themeToggleBtn.addEventListener('click', toggleTheme);
 
     // Initial load
+    initializeTheme();
     displayLottoNumbers();
 });
