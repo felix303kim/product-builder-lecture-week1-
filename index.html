@@ -13,6 +13,17 @@
         <button id="theme-toggle-btn" class="theme-toggle-btn" type="button">Switch to Light Mode</button>
         <div id="lotto-numbers" class="lotto-numbers"></div>
         <button id="generate-btn" class="generate-btn">Generate Numbers</button>
+
+        <section class="affiliate-section">
+            <h2>제휴 문의</h2>
+            <form class="affiliate-form" action="https://formspree.io/f/mlgwpvoa" method="POST">
+                <input type="text" name="name" placeholder="이름" required>
+                <input type="email" name="email" placeholder="이메일" required>
+                <textarea name="message" rows="4" placeholder="문의 내용을 입력해 주세요." required></textarea>
+                <button type="submit" class="submit-btn">문의 보내기</button>
+            </form>
+            <p class="form-note">문의 내용은 Formspree로 전송됩니다.</p>
+        </section>
     </div>
     <script src="main.js"></script>
 </body>
